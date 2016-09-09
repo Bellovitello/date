@@ -4,12 +4,13 @@
 function date_field_formatter_view(entity_type, entity, field, instance, langcode, items, display) {
   try {
 
-    //console.log(field);
-    //console.log(instance);
-    //console.log(display);
-    //console.log('ITEMS', items);
-    //console.log('date_formats', drupalgap.date_formats);
-    //console.log('date_types', drupalgap.date_types);
+    console.log('date_field_formatter_view');
+    console.log(field);
+    console.log(instance);
+    console.log(display);
+    console.log('ITEMS', items);
+    console.log('date_formats', drupalgap.date_formats);
+    console.log('date_types', drupalgap.date_types);
 
     var element = {};
 
@@ -93,14 +94,15 @@ function date_field_formatter_view(entity_type, entity, field, instance, langcod
 function date_field_widget_form(form, form_state, field, instance, langcode, items, delta, element) {
   try {
 
-    //console.log(form);
-    //console.log(form_state);
-    //console.log(field);
-    //console.log(instance);
-    //console.log(langcode);
-    //console.log(items);
-    //console.log(delta);
-    //console.log(element);
+    console.log('date_field_widget_form');
+    console.log(form);
+    console.log(form_state);
+    console.log(field);
+    console.log(instance);
+    console.log(langcode);
+    console.log(items);
+    console.log(delta);
+    console.log(element);
 
     // Convert the item into a hidden field that will have its value populated dynamically by the widget. We'll store
     // the value (and potential value2) within the element using this format: YYYY-MM-DD HH:MM:SS|YYYY-MM-DD HH:MM:SS
@@ -128,6 +130,7 @@ function date_field_widget_form(form, form_state, field, instance, langcode, ite
       items[delta].attributes.value = items[delta].value;
     }
 
+    console.log('Grab current date');
     // Grab the current date.
     var date = new Date();
 
@@ -161,6 +164,7 @@ function date_field_widget_form(form, form_state, field, instance, langcode, ite
       var _widget_minute = null;
       var _widget_second = null;
       var _widget_ampm = null;
+      console.log('Granularity');
       $.each(field.settings.granularity, function(grain, value) {
         if (value) {
 
@@ -230,6 +234,7 @@ function date_field_widget_form(form, form_state, field, instance, langcode, ite
         }
       });
 
+      console.log('From or to');
       // Show the "from" or "to" label?
       if (!empty(todate)) {
         var text = _value != 'value2' ? t('From') : t('To');
@@ -286,6 +291,8 @@ function date_field_widget_form(form, form_state, field, instance, langcode, ite
  *
  */
 function _date_grain_widget_year(date, instance, attributes, value_set, value2_set, item_date) {
+  console.log('_date_grain_widget_year');
+
   try {
     // Determine the current year and the range of year(s) to provide
     // as options. The range can either be relative, absolute or both,
@@ -337,6 +344,8 @@ function _date_grain_widget_year(date, instance, attributes, value_set, value2_s
 }
 
 function _date_grain_widget_month(date, instance, attributes, value_set, value2_set, item_date) {
+  console.log('_date_grain_widget_month');
+
   try {
     // Determine the current month.
     var month = parseInt(date.getMonth()) + 1;
@@ -360,6 +369,8 @@ function _date_grain_widget_month(date, instance, attributes, value_set, value2_
 }
 
 function _date_grain_widget_day(date, instance, attributes, value_set, value2_set, item_date) {
+  console.log('_date_grain_widget_day');
+
   try {
     // Determine the current day.
     var day = parseInt(date.getDate());
@@ -383,6 +394,8 @@ function _date_grain_widget_day(date, instance, attributes, value_set, value2_se
 }
 
 function _date_grain_widget_hour(date, instance, attributes, value_set, value2_set, item_date, military) {
+  console.log('_date_grain_widget_hour');
+
   try {
     // Determine the current hour.
     var hour = parseInt(date.getHours());
@@ -415,6 +428,8 @@ function _date_grain_widget_hour(date, instance, attributes, value_set, value2_s
 }
 
 function _date_grain_widget_minute(date, instance, attributes, value_set, value2_set, item_date, _value, increment) {
+  console.log('_date_grain_widget_minute');
+
   try {
     // Determine the current minute.
     var minute = parseInt(date.getMinutes());
@@ -447,6 +462,8 @@ function _date_grain_widget_minute(date, instance, attributes, value_set, value2
 }
 
 function _date_grain_widget_second(date, instance, attributes, value_set, item_date) {
+  console.log('_date_grain_widget_second');
+
   try {
 
   }
@@ -454,6 +471,9 @@ function _date_grain_widget_second(date, instance, attributes, value_set, item_d
 }
 
 function _date_grain_widgets_ux_wrap(items, delta, _widget_year, _widget_month, _widget_day, _widget_hour, _widget_minute, _widget_second, _widget_ampm) {
+  console.log('_date_grain_widgets_ux_wrap');
+  console.log('%s' % _widget_year );
+
   try {
 
     // Add the children widgets in the order of "y-m-d h-i-s", and wrap them in
@@ -530,6 +550,8 @@ function _date_grain_widgets_ux_wrap(items, delta, _widget_year, _widget_month, 
  * @returns {Date}
  */
 function date_prepare(value, offset) {
+  console.log('date_prepare');
+
   try {
     // @see http://stackoverflow.com/a/16664730/763010
     if (date_apple_device()) { value = date_apple_cleanse(value); }
@@ -552,8 +574,10 @@ function date_prepare(value, offset) {
  * Returns true if the device is an Apple device
  */
 function date_apple_device() {
+  //console.log('Device detected ' + typeof device);
   return (typeof device !== 'undefined' && device.platform == 'iOS') ||
-  (navigator.vendor && navigator.vendor.indexOf('Apple') > -1)
+  (navigator.vendor && navigator.vendor.indexOf('Apple') > -1) ||
+  (typeof device === 'undefined')
 }
 
 /**
@@ -586,6 +610,8 @@ function date_military(instance) {
  * input.
  */
 function date_select_onchange(input, id, grain, military, increment, offset) {
+  console.log('date_select_onchange');
+
   try {
 
     // @TODO - we may need the time zone offset placed here as well!
@@ -830,6 +856,9 @@ function date_tz_handling_is_date(field) {
 }
 
 function _date_get_item_and_offset(items, delta, _value, value_set, value2_set, field) {
+  console.log('_date_get_item_and_offset');
+  console.log('Values ' +  _value + ',' + value_set );
+
   try {
 
     // Grab the item date and offset, if they are set, otherwise grab the current date/time.
@@ -839,6 +868,7 @@ function _date_get_item_and_offset(items, delta, _value, value_set, value2_set, 
       if (items[delta].value.indexOf('|') != -1) {
         var parts = items[delta].value.split('|');
         item_date = new Date(!date_apple_device() ? parts[0] : date_apple_cleanse(parts[0]));
+        console.log('Item date ' + item_date);
       }
       else {
         item_date = new Date(!date_apple_device() ? items[delta].value : date_apple_cleanse(items[delta].value));
@@ -860,6 +890,7 @@ function _date_get_item_and_offset(items, delta, _value, value_set, value2_set, 
       item_date = date_item_adjust_offset(item_date, offset);
     }
 
+    console.log('Item date ' + item_date);
     // Build the result object.
     var result = {
       item_date: item_date,
@@ -893,6 +924,8 @@ function _date_get_item_and_offset(items, delta, _value, value_set, value2_set, 
 }
 
 function _date_widget_check_and_set_defaults(items, delta, instance, d) {
+  console.log('_date_widget_check_and_set_defaults');
+
   try {
 
     // Determine if value and value_2 have been set for this item.
@@ -990,6 +1023,8 @@ function date_services_request_pre_postprocess_alter(options, result) {
  * Implements hook_assemble_form_state_into_field().
  */
 function date_assemble_form_state_into_field(entity_type, bundle, form_state_value, field, instance, langcode, delta, field_key, form) {
+  console.log('date_assemble_form_state_into_field');
+
   try {
 
     //console.log('assemble', arguments);
@@ -1008,6 +1043,7 @@ function date_assemble_form_state_into_field(entity_type, bundle, form_state_val
     if (date_apple_device()) { form_state_value = date_apple_cleanse(form_state_value); }
     var result = {};
 
+    console.log('Processing value')
     var values = ['value'];
     if (!empty(todate)) { values.push('value2'); }
     $.each(values, function(_index, _value) {
@@ -1025,6 +1061,7 @@ function date_assemble_form_state_into_field(entity_type, bundle, form_state_val
       //console.log('HELLO', form_state_value, parts, form_state_value);
 
       // Add timezone object to result, if necessary.
+      console.log('Timezone');
       if (date_tz_handling_is_date(field)) {
         var timezone = {
           timezone: $('#' + form.elements[field.field_name][langcode][delta].id + '-timezone').val()
@@ -1034,7 +1071,6 @@ function date_assemble_form_state_into_field(entity_type, bundle, form_state_val
       }
 
       $.each(field.settings.granularity, function(grain, value) {
-
         var date = null;
         if (_value == 'value') {
           date = new Date(parts[0]);
